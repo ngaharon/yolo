@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+
+  # Builds the frontend Docker image and creates the frontend microservice
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: frontend-container
+    stdin_open: true
+    tty: true
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - yangu-network
+
+  # Builds the backend Docker image and creates the backend microservice
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend-container
+    stdin_open: true
+    tty: true
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/mongodb
+    networks:
+      - yangu-network
+
+  # Creates the MongoDB database microservice
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - yangu-network
+    volumes:
+      - mongo-data:/data/db
+
+# Creates the network infrastructure necessary for the containers to communicate with each other
+networks:
+  yangu-network:
+    driver: bridge
+
+# Creates a Docker volume that persists all the data stored in the database
+volumes:
+  mongo-data:
+    driver: local
