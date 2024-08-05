@@ -21,6 +21,9 @@ mongodb_data_dir: "/data/mongodb"
 mongodb_database: "ecommerce"
 
 # Container names
-client_container_name: "frontend-container"
-backend_container_name: "backend-container"
-mongodb_con
+client_container_name: "client"
+backend_container_name: "backend"
+mongodb_container_name: "mongodb"
+
+# Environment settings
+node_env: production
