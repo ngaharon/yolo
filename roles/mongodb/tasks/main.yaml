@@ -1,0 +1,30 @@
+---
+- name: Ensure MongoDB data directory exists
+  file:
+    path: "{{ mongodb_data_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Pull MongoDB Docker image
+  docker_image:
+    name: "{{ mongodb_image }}"
+    source: pull
+
+- name: Start MongoDB container
+  docker_container:
+    name: "{{ mongodb_container_name }}"
+    image: "{{ mongodb_image }}"
+    state: started
+    restart_policy: always
+    network_mode: "{{ docker_network_name }}"
+    volumes:
+      - "{{ mongodb_data_dir }}:/data/db"
+    ports:
+      - "{{ mongodb_port }}:27017"
+    command: ["--noauth"]
+
+- name: Wait for MongoDB to be ready
+  wait_for:
+    port: "{{ mongodb_port }}"
+    delay: 10
+      

@@ -1,0 +1,36 @@
+---
+- name: Deploy E-commerce Application
+  hosts: localhost
+  become: true
+  vars_files:
+    - vars/main.yaml
+
+  roles:
+    - docker
+    - mongodb
+    - backend
+    - client
+
+  tasks:
+    - name: Ensure Docker network exists
+      docker_network:
+        name: "{{ docker_network_name }}"
+        state: present
+
+    - name: Ensure all containers are running
+      docker_container:
+        name: "{{ item.name }}"
+        state: started
+      loop:
+        - { name: "{{ mongodb_container_name }}" }
+        - { name: "{{ backend_container_name }}" }
+        - { name: "{{ client_container_name }}" }
+
+    - name: Wait for application to be ready
+      uri:
+        url: "http://localhost:{{ client_port }}"
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 60
+      delay: 1

@@ -1,0 +1,7 @@
+---
+client_image: "yolo_frontend:latest"
+client_container_name: "frontend-container"
+client_port: 3000
+client_env:
+  NODE_ENV: "production"
+  REACT_APP_API_URL: "http://localhost:{{ backend_port | default(5000) }}/api"

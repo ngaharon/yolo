@@ -1,0 +1,26 @@
+---
+# Application variables
+app_name: e-commerce-app
+app_dir: "/opt/{{ app_name }}"
+
+# Docker network
+docker_network_name: yolo-network
+
+# Docker images
+client_image: yolo_frontend:latest
+backend_image: backend-img:v1.0.1
+mongodb_image: mongo:latest
+
+# Ports
+client_port: 3000
+backend_port: 5000
+mongodb_port: 27017
+
+# MongoDB settings
+mongodb_data_dir: "/data/mongodb"
+mongodb_database: "ecommerce"
+
+# Container names
+client_container_name: "frontend-container"
+backend_container_name: "backend-container"
+mongodb_con

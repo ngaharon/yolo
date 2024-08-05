@@ -1,0 +1,27 @@
+---
+- name: Pull client Docker image
+  docker_image:
+    name: "{{ client_image }}"
+    source: pull
+
+- name: Start client container
+  docker_container:
+    name: "{{ client_container_name }}"
+    image: "{{ client_image }}"
+    state: started
+    restart_policy: always
+    network_mode: "{{ docker_network_name }}"
+    ports:
+      - "{{ client_port }}:3000"
+    env:
+      NODE_ENV: "{{ node_env }}"
+      REACT_APP_API_URL: "http://localhost:{{ backend_port }}/api"
+
+- name: Wait for client to be ready
+  uri:
+    url: "http://localhost:{{ client_port }}"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 60
+  delay: 1

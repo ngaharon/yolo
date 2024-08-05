@@ -1,0 +1,8 @@
+---
+backend_image: "backend-img:v1.0.1"
+backend_container_name: "backend-container"
+backend_port: 5000
+backend_env:
+  NODE_ENV: "production"
+  MONGO_URI: "mongodb://mongodb:27017/ecommerce"
+  PORT: "5000"

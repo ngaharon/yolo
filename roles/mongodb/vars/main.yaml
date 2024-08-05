@@ -1,0 +1,5 @@
+mongodb_image: "mongo:latest"
+mongodb_container_name: "mongodb"
+mongodb_port: 27017
+mongodb_data_dir: "/data/mongodb"
+mongodb_database: "ecommerce"
