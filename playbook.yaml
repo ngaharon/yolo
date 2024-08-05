@@ -6,7 +6,6 @@
     - vars/main.yaml
 
   roles:
-    - docker
     - mongodb
     - backend
     - client
