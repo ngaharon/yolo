@@ -52,3 +52,5 @@ https://hub.docker.com/repositories/harondevops6
 
 ## How to run the app
 Use vagrant up --provison command
+
+
