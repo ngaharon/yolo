@@ -1,18 +1,42 @@
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: nginxapp
+  name: backend-deployment
   labels:
-    name: nginxapp
+    app: backend
 spec:
-  containers:
-  - name: nginxapp
-    image: nginx
-    resources:
-      limits:
-        memory: "128Mi"
-        cpu: "500m"
-    ports:
-      - containerPort: 8080
-    
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: backend-img:v1.0.1
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "1000m"
+          requests:
+            memory: "256Mi"
+            cpu: "1000m"
+        ports:
+        - containerPort: 5000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+   name: backend-service
+spec:
+  type: LoadBalancer
+  selector:
+     app: backend
+  ports:
+  - port: 5000
+    targetPort: 5000
