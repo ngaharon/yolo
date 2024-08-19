@@ -53,4 +53,28 @@ https://hub.docker.com/repositories/harondevops6
 ## How to run the app
 Use vagrant up --provison command
 
+### prerequisites
+
+- Kubernetes cluster (e.g., GKE, EKS, or Minikube)
+- kubectl configured to use your cluster
+- Docker Hub account
+ 
+ ## Deployment
+ 1. Clone this repository
+ 2. Apply the Kubernetes manifests: `kubectl apply -f ...`
+ 3. Wait for all pods to be in the "Running" state: `kubectl get pods --watch`
+ 4. Access the application: 4. Access the application: `kubectl get services client-service`
+
+ Use the EXTERNAL-IP and port 80 to access the application in your browser.
+
+## Architecture
+
+- client: React application
+- Backend: Node.js API
+- Database: MongoDB
+
+## Troubleshooting
+
+If you encounter issues, check the pod logs: `kubectl logs <pod-name>`
+
 
